@@ -3,75 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roue de la Chance Hedra - Lomé</title>
+<title>La roux de chance</title>
 <style>
 body{margin:0;font-family:Arial;background:#0f172a;color:white;text-align:center}
-.header{background:linear-gradient(90deg,#16a34a,#eab308,#dc2626);padding:15px}
-.header h1{margin:0;font-size:22px}
+.header{background:linear-gradient(90deg,#16a34a,#eab308,#dc2626);padding:18px}
+.header h1{margin:0;font-size:26px;letter-spacing:1px}
 .card{background:#1e293b;margin:15px;padding:15px;border-radius:16px}
-#wheel{width:280px;height:280px;border-radius:50%;border:8px solid gold;margin:10px auto;position:relative;overflow:hidden;transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
-.seg{position:absolute;width:50%;height:50%;left:50%;top:0;transform-origin:0 100%}
-.btn{padding:16px;width:90%;border:none;border-radius:12px;font-weight:bold;font-size:18px;cursor:pointer;margin:8px}
+.wheel-container{position:relative;width:300px;height:300px;margin:20px auto}
+#wheel{width:280px;height:280px;border-radius:50%;border:8px solid gold;transition:transform 4s cubic-bezier(.17,.67,.12,.99);display:block;margin:0 auto}
+.arrow{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:40px solid #eab308;z-index:10;filter:drop-shadow(0 2px 4px black)}
+.center-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:55px;height:55px;background:gold;border:4px solid white;border-radius:50%;z-index:5;display:flex;align-items:center;justify-content:center;font-size:26px}
+.btn{padding:16px;width:92%;border:none;border-radius:12px;font-weight:bold;font-size:18px;cursor:pointer;margin:8px}
 .btn-spin{background:#eab308;color:black}
 .btn-pay{background:#16a34a;color:white}
-.proba{display:flex;justify-content:space-around;font-size:12px;margin:10px 0}
-.proba div{background:#334155;padding:6px;border-radius:8px}
-.small{font-size:11px;color:#94a3b8}
+.small{font-size:11px;color:#94a3b8;margin-top:8px}
+.winner{ background:#334155; padding:10px; border-radius:10px; margin:6px 0; display:flex; justify-content:space-between; }
 </style>
 </head>
 <body>
 
 <div class="header">
-<h1>🎡 ROUE HEDRA - Lomé</h1>
-<p>Mise 1,000F | Jackpot 10,000F | 18+ uniquement</p>
+<h1>🎡 La roux de chance</h1>
 </div>
 
 <div class="card">
+<div class="wheel-container">
+<div class="arrow"></div>
 <canvas id="wheel" width="280" height="280"></canvas>
-<p id="result" style="font-size:20px;font-weight:bold;height:25px"></p>
-<button class="btn btn-spin" onclick="spin()">🎯 TOURNER LA ROUE - 1,000F</button>
-<button class="btn btn-pay" onclick="payer()">💰 PAYER VIA MIXX BY YAS / MOOV</button>
-<p class="small">Jeu responsable: Max 5 tours/jour. Interdit -18 ans. Tirage équitable vérifiable.</p>
+<div class="center-dot">🎯</div>
+</div>
+<p id="result" style="font-size:22px;font-weight:bold;min-height:30px;color:#eab308">Tourne la roue!</p>
+<button class="btn btn-spin" onclick="spin()">🎯 TOURNER - 1,000F</button>
+<button class="btn btn-pay" onclick="payer()">💰 PAYER MIXX / MOOV</button>
+<p class="small">18+ uniquement • Jeu responsable</p>
 </div>
 
 <div class="card">
-<h3>📊 Probabilités (affichées avant jeu)</h3>
-<div class="proba">
-<div>50%<br>Perdu</div>
-<div>25%<br>x2 =2,000F</div>
-<div>15%<br>x3 =3,000F</div>
-<div>8%<br>x5 =5,000F</div>
-<div style="background:gold;color:black">2%<br>x10 =10,000F</div>
-</div>
-<p class="small">Marge organisateur: 15% pour frais et organisation. Réglement disponible sur WhatsApp.</p>
-</div>
-
-<div class="card">
-<h3>🏆 Derniers gagnants Hedranawoé</h3>
-<p id="winners">Afi - 5,000F il y a 2h<br>Koffi - 2,000F il y a 5h<br>Yaovi - 10,000F hier</p>
-<button class="btn" style="background:#334155;color:white" onclick="retrait()">📲 DEMANDER RETRAIT WHATSAPP</button>
+<h3>🏆 Derniers gagnants</h3>
+<div class="winner"><span>🔥 Afi K.</span><span style="color:#eab308;font-weight:bold">5,000F</span></div>
+<div class="winner"><span>💥 Koffi M.</span><span style="color:#eab308;font-weight:bold">10,000F</span></div>
+<div class="winner"><span>🎉 Yaovi S.</span><span style="color:#16a34a;font-weight:bold">2,000F</span></div>
+<div class="winner"><span>👑 Adjo A.</span><span style="color:#dc2626;font-weight:bold">3,000F</span></div>
+<button class="btn" style="background:#334155;color:white" onclick="retrait()">📲 RETRAIT WHATSAPP</button>
 </div>
 
 <script>
 let deg=0;
 const canvas=document.getElementById('wheel');
 const ctx=canvas.getContext('2d');
-const colors=['#334155','#16a34a','#2563eb','#eab308','#dc2626'];
-const labels=['PERDU','x2','x3','x5','x10'];
+const labels=['PERDU','PERDU','x2','x3','x5','JACKPOT x10'];
+const colors=['#475569','#334155','#16a34a','#2563eb','#eab308','#dc2626'];
 
 function drawWheel(){
- for(let i=0;i<5;i++){
+ ctx.clearRect(0,0,280,280);
+ for(let i=0;i<6;i++){
    ctx.beginPath();
    ctx.moveTo(140,140);
-   ctx.arc(140,140,140,i*72*Math.PI/180,(i+1)*72*Math.PI/180);
-   ctx.fillStyle= i==0?'#475569': i==1?'#16a34a': i==2?'#2563eb': i==3?'#eab308':'#dc2626';
+   ctx.arc(140,140,135,i*60*Math.PI/180,(i+1)*60*Math.PI/180);
+   ctx.fillStyle=colors[i];
    ctx.fill();
+   ctx.strokeStyle='#0f172a';ctx.lineWidth=3;ctx.stroke();
    ctx.save();
    ctx.translate(140,140);
-   ctx.rotate((i*72+36)*Math.PI/180);
+   ctx.rotate((i*60+30)*Math.PI/180);
    ctx.fillStyle='white';
-   ctx.font='bold 14px Arial';
-   ctx.fillText(labels[i],40,5);
+   ctx.font='bold 13px Arial';
+   ctx.fillText(labels[i],35,5);
    ctx.restore();
  }
 }
@@ -79,32 +76,11 @@ drawWheel();
 
 let tours=0;
 function spin(){
- if(tours>=5){alert("Limite responsable: 5 tours max aujourd'hui. Reviens demain.");return;}
+ if(tours>=5){alert("Limite 5 tours aujourd'hui");return;}
  tours++;
  let r=Math.random()*100;
- let gain=0; let text="";
- if(r<50){gain=0;text="😢 PERDU - Retente ta chance!";}
- else if(r<75){gain=2000;text="🎉 GAGNÉ 2,000F (x2)!";}
- else if(r<90){gain=3000;text="🔥 GAGNÉ 3,000F (x3)!";}
- else if(r<98){gain=5000;text="💥 GAGNÉ 5,000F (x5)!";}
- else {gain=10000;text="👑 JACKPOT 10,000F (x10)!!!";}
-
- deg+= 1800 + Math.random()*360;
- canvas.style.transform=`rotate(${deg}deg)`;
- document.getElementById('result').innerText="...la roue tourne...";
- setTimeout(()=>{
-   document.getElementById('result').innerText=text;
-   if(gain>0) alert(text+"\\nFais capture et envoie sur WhatsApp pour retrait Moov/Mixx");
- },4200);
-}
-
-function payer(){
- window.open("https://pay.fedapay.com/roue-hedra-1000","_blank");
-}
-function retrait(){
- let msg="Bonjour Hedra, je viens de jouer à la Roue. Voici mon gain (capture). Merci de payer sur mon numéro Mixx.";
- window.open("https://wa.me/22890000000?text="+encodeURIComponent(msg),"_blank");
-}
-</script>
-</body>
-</html>
+ let idx=0; let txt="";
+ if(r<25){idx=0; txt="😢 PERDU";}
+ else if(r<50){idx=1; txt="😢 PERDU";}
+ else if(r<75){idx=2; txt="🎉 GAGNÉ 2,000F";}
+ else if(r<90){idx=3; txt="🔥 G
